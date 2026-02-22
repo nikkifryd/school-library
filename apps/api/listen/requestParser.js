@@ -48,11 +48,21 @@ async function receiveGet(url, req, res) {
     //read out endpoint
     switch (url) {
         case '/students':
+            try {
+                
+            } catch (error) {
+                
+            }
             res.writeHead(200, {'Content-Type':'application/json'});
             let queryResult = await database.getAllStudents();
             res.end(JSON.stringify(queryResult));
             break;
-    
+        case '/books':
+            res.writeHead(200, {'Content-Type':'application/json'});
+            let queryResult = await database.getAllStudents();
+            res.end(JSON.stringify(queryResult));
+            break;
+
         default:
             break;
     }
