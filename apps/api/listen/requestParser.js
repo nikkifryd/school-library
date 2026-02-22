@@ -1,5 +1,6 @@
-/**
- * Decipher received client request
+import * as database from '../process/process.js'
+
+ /* Decipher received client request
  * -find out method
  * -pass on body
  * @param {http.IncomingMessage} req Client request
@@ -43,13 +44,13 @@ export function handleRequest (req,res){
  * @param {http.IncomingMessage} req Client request
  * @param {http.ServerResponse} res Server response 
  */
-function receiveGet(url, req, res) {
+async function receiveGet(url, req, res) {
     //read out endpoint
     switch (url) {
         case '/students':
             res.writeHead(200, {'Content-Type':'application/json'});
-            res.end(JSON.stringify(getAllStudents()));
-            console.log(getAllStudents());
+            let queryResult = await database.getAllStudents();
+            res.end(JSON.stringify(queryResult));
             break;
     
         default:
