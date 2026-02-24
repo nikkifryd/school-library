@@ -1,5 +1,12 @@
 import * as database from '../process/process.js'
 
+const routes = {
+    'GET': {
+        'books': (res, id) => id ? getBook(res,id) : getBooks(res,id),
+        'students': (res, id) => id ? getStudent(res,id): getStudents(res,id)
+    }
+};
+
  /* Decipher received client request
  * -find out method
  * -pass on body
@@ -7,103 +14,38 @@ import * as database from '../process/process.js'
  * @param {http.ServerResponse} res Server response
  */
 export function handleRequest (req,res){
-    let url = req.url;
+    //filter(Boolean) gets rid of empty entries
+    let endpoints = req.url.split('/').filter(Boolean);
     let method = req.method;
 
-    //Find out method and call appropriate receive-method
-    switch (method) {
-        case 'GET':
-            receiveGet(url, req, res);
-            break;
-
-        case 'POST':
-            receivePost(url, req, res);
-            break;
-
-         case 'PUT':
-            receivePut(url, req, res);
-            break;
-        
-         case 'DELETE':
-            receiveDelete(url, req, res);
-            break;
-
-         case 'UPDATE':
-            receiveUpdate(url, req, res);
-            break;
-
-        default:
-            break;
+    if (!(routes[method]) | endpoints[0] !== 'api') {
+        res.writeHead(501);
+        res.end();
+        return;
     }
-}     
 
-
-/**
- * Decipher incoming GET request 
- * @param {string} url 
- * @param {http.IncomingMessage} req Client request
- * @param {http.ServerResponse} res Server response 
- */
-async function receiveGet(url, req, res) {
-    //read out endpoint
-    switch (url) {
-        case '/students':
-            try {
-                
-            } catch (error) {
-                
-            }
-            res.writeHead(200, {'Content-Type':'application/json'});
-            let queryResult = await database.getAllStudents();
-            res.end(JSON.stringify(queryResult));
-            break;
-        case '/books':
-            res.writeHead(200, {'Content-Type':'application/json'});
-            let queryResult = await database.getAllStudents();
-            res.end(JSON.stringify(queryResult));
-            break;
-
-        default:
-            break;
+    if (routes[method][endpoints[1]]) {
+        routes[method][endpoints[1]](res, endpoints[2]);
     }
 }
 
-/**
- * Decipher incoming POST request 
- * @param {string} url 
- * @param {http.IncomingMessage} req Client request
- * @param {http.ServerResponse} res Server response 
- */
-function receivePost(params) {
-    //to fill
+
+async function getBook(res, id) {
+    console.log('single book');
+    res.end();
 }
 
-/**
- * Decipher incoming PUT request 
- * @param {string} url 
- * @param {http.IncomingMessage} req Client request
- * @param {http.ServerResponse} res Server response 
- */
-function receivePut(params) {
-    //to fill
+async function getBooks(res, id) {
+    console.log('MEGA BOOKS');
+    res.end();
 }
 
-/**
- * Decipher incoming DELETE request 
- * @param {string} url 
- * @param {http.IncomingMessage} req Client request
- * @param {http.ServerResponse} res Server response 
- */
-function receiveDelete(params) {
-    //to fill
+async function getStudent(res, id) {
+    console.log('single student');
+    res.end();
 }
 
-/**
- * Decipher incoming UPDATE request 
- * @param {string} url 
- * @param {http.IncomingMessage} req Client request
- * @param {http.ServerResponse} res Server response 
- */
-function receiveUpdate(params) {
-    //to fill
+async function getStudents(res, id) {
+    console.log('MEGA STUDS');
+    res.end();
 }
