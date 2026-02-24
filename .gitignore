@@ -1,3 +1,4 @@
 .vs #Visual Studio Code
-/apps/api/listen/*.json
-/apps/api/listen/node_modules
+# /apps/api/listen/*.json
+
+node_modules/
