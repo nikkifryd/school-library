@@ -40,6 +40,10 @@ export async function getBook(bookid) {
     return response;
 }
 
+/**
+ * Gets all books and their information
+ * @returns {[id:int, title: string, author: string]}
+ */
 export async function getAllBooks() {
     let query = 'SELECT * FROM books ORDER BY id';
 
@@ -83,7 +87,7 @@ export async function getCurrentTransaction(bookid) {
  * Queries the database for all lent out books
  * @returns {[id: int, book: int, student: String, start: Date, end: Date]} 
  */
-export async function getOpenTransactions() {
+export async function getAllOpenTransactions() {
     let query = 
         'SELECT * '+
         'FROM lending l '+
