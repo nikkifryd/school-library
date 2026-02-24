@@ -18,7 +18,7 @@ export function handleRequest (req,res){
     let endpoints = req.url.split('/').filter(Boolean);
     let method = req.method;
 
-    if (!(routes[method]) | endpoints[0] !== 'api') {
+    if (!(routes[method]) || endpoints[0] !== 'api') {
         res.writeHead(501);
         res.end();
         return;
