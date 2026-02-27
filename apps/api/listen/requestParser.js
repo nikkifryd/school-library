@@ -95,6 +95,41 @@ function parseRoute (endpoints, currentRoute, parameter, req, res) {
     }
 }
 
+/**
+ * 
+ * @param {object} currentRoute 
+ * @param {[string]} endpoints
+ * @param {object} parameter 
+ */
+function parseRoute (currentRoute, endpoints, parameter) {
+    if(endpoints.length === 0) {
+        if (typeof currentRoute === 'function') {
+            currentRoute(undefined,parameter);
+        }
+        else if(currentRoute[''] && typeof currentRoute[''] === 'function') {
+            currentRoute[''](undefined,parameter);
+        }
+        return;
+    }
+
+    
+    let nextEndpoint = endpoints[0];
+    let params = parameter;
+
+    if(nextEndpoint in currentRoute) {
+        parseRoute(currentRoute[nextEndpoint], endpoints.slice(1), params);
+        return;
+    }
+
+    for(let routeKey in currentRoute) {
+        if(routeKey.startsWith('$')) {
+            let paramName = routeKey.slice(1);
+
+            params[paramName] = nextEndpoint;
+            parseRoute(currentRoute[routeKey], endpoints.slice(1),params);
+        }
+    }
+}
 
 async function getBook(res, id) {
     console.log('single book');
