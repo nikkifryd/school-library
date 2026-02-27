@@ -3,11 +3,9 @@ import http from "http"
 
 const routes = {
     'GET': {
-        // GET /api/books
-        'books': (res, id) => id ? getBook(res, id) : getBooks(res, id),
-        'book': {
-            // GET /api/book/1234
-            '{id}': (res, _, params) => getBook(res, params.id)
+        'books': {
+            null : getBooks(res),
+            '{id}': getBook(res,id)
         },
         'students': (res, id) => id ? getStudent(res, id) : getStudents(res, id),
         'test': {
@@ -34,8 +32,8 @@ const routes = {
 */
 export function handleRequest(req, res) {
     //filter(Boolean) gets rid of empty entries
-    let pathParts = req.url.split('/').filter(Boolean)
-    let method = req.method
+    let endpoints = req.url.split('/').filter(Boolean);
+    let method = req.method;
 
     if (!(routes[method]) || endpoints[0] !== 'api') {
         res.writeHead(501);
@@ -43,47 +41,55 @@ export function handleRequest(req, res) {
         return;
     }
 
-    const params = {}
+    const params = {};
 
-    let currentRouteConfig = routes[method]
-    for (const part of pathParts.slice(1)) {
-        if (typeof currentRouteConfig !== "object") {
-            console.error("TBD: dinge sollten passieren")
-            return
+    let currentEndpoint = routes[method];
+    for (const point of endpoints.slice(1)) {
+        if (typeof currentEndpoint !== 'object') {
+            console.error();
+            return;
         }
 
-        if (part in currentRouteConfig) {
-            currentRouteConfig = currentRouteConfig[part]
-            continue
+        if (point in currentEndpoint) {
+            currentEndpoint = currentEndpoint[point];
+            continue;
         }
 
-        for (const routeKey in currentRouteConfig) {
+        for (const routeKey in currentEndpoint) {
             if (!routeKey.startsWith("{") || !routeKey.endsWith("}")) {
                 continue
             }
 
             const paramName = routeKey.slice(1, -1)
-            params[paramName] = part
+            params[paramName] = point
 
-            currentRouteConfig = currentRouteConfig[routeKey]
+            currentEndpoint = currentEndpoint[routeKey]
             break
         }
     }
 
-    if (typeof currentRouteConfig === "function") {
-        currentRouteConfig(res, undefined, params)
+
+    if (typeof currentEndpoint === "function") {
+        currentEndpoint(res, undefined, params)
     } else {
-        console.log("Error", currentRouteConfig)
+        console.log("Error", currentEndpoint)
     }
 }
 
+/**
+ * 
+ * @param {[string]} endpoints 
+ * @param {object} currentEndpoint 
+ */
+function parseURL (endpoints, currentEndpoint) {
 
+}
 async function getBook(res, id) {
     console.log('single book')
     res.end()
 }
 
-async function getBooks(res, id) {
+async function getBooks(res) {
     console.log('MEGA BOOKS')
     res.end()
 }
