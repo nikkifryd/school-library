@@ -20,17 +20,17 @@ const routes = {
         },
         'test': {
             'lurch': {
-                '': (res, params) => console.log("Desch is a lurch, ganz klar sigg i des"),
+                '': (params, req, res) => console.log("Desch is a lurch, ganz klar sigg i des"),
                 'baby':(res,params) => console.log('BABY LURCH AWW')
             },
-            '$tier': (res, params) => console.log("Es ist ein: " + params.tier),
+            '$tier': (params, req, res) => console.log("Es ist ein: " + params.tier),
 
             '$gattung': {
-                '':(res, params) => console.log('Nur die Gattung '+ params.gattung),
+                '':(params, req, res) => console.log('Nur die Gattung '+ params.gattung),
                 '$tier': {
-                    '':(res, params) => console.log('Es ist ein '+params.tier+' der Gattung '+params.gattung),
-                    'pfote': (res, params) => console.log('Es ist eine '+params.tier+'-Pfote aus der Gattung '+params.gattung),
-                    '$koerperteil': (res, params) => console.log('Es ist eins '+params.tier+'-'+params.koerperteil+' aus der Gattung '+params.gattung)
+                    '':(params, req, res) => console.log('Es ist ein '+params.tier+' der Gattung '+params.gattung),
+                    'pfote': (params, req, res) => console.log('Es ist eine '+params.tier+'-Pfote aus der Gattung '+params.gattung),
+                    '$koerperteil': (params, req, res) => console.log('Es ist eins '+params.tier+'-'+params.koerperteil+' aus der Gattung '+params.gattung)
                 },
             }
         }
@@ -52,7 +52,7 @@ export function handleRequest (req,res) {
         return;
     }
 
-    parseRoute(routes[method], endpoints.slice(1), {}, req, res);
+    parseRoute(endpoints.slice(1),routes[method], {}, req, res);
 }
 
 /**
@@ -91,42 +91,6 @@ function parseRoute (endpoints, currentRoute, parameter, req, res) {
             let keyValue = parseRoute(endpoints.slice(1), currentRoute[routeKey], params, req, res);
             if(typeof keyValue === 'function') 
                 return keyValue(params, req, res);
-        }
-    }
-}
-
-/**
- * 
- * @param {object} currentRoute 
- * @param {[string]} endpoints
- * @param {object} parameter 
- */
-function parseRoute (currentRoute, endpoints, parameter) {
-    if(endpoints.length === 0) {
-        if (typeof currentRoute === 'function') {
-            currentRoute(undefined,parameter);
-        }
-        else if(currentRoute[''] && typeof currentRoute[''] === 'function') {
-            currentRoute[''](undefined,parameter);
-        }
-        return;
-    }
-
-    
-    let nextEndpoint = endpoints[0];
-    let params = parameter;
-
-    if(nextEndpoint in currentRoute) {
-        parseRoute(currentRoute[nextEndpoint], endpoints.slice(1), params);
-        return;
-    }
-
-    for(let routeKey in currentRoute) {
-        if(routeKey.startsWith('$')) {
-            let paramName = routeKey.slice(1);
-
-            params[paramName] = nextEndpoint;
-            parseRoute(currentRoute[routeKey], endpoints.slice(1),params);
         }
     }
 }
