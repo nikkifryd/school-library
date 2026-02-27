@@ -1,6 +1,5 @@
 import { parse } from 'path';
 import * as database from '../process/process.js'
-import http from "http"
 
 const routes = {
     'GET': {
@@ -26,15 +25,15 @@ const routes = {
             }
         }
     }
-}
+};
 
-/** Decipher received client request
-* -find out method
-* -pass on body
-* @param {http.IncomingMessage} req Client request
-* @param {http.ServerResponse} res Server response
-*/
-export function handleRequest(req, res) {
+ /* Decipher received client request
+ * -find out method
+ * -pass on body
+ * @param {http.IncomingMessage} req Client request
+ * @param {http.ServerResponse} res Server response
+ */
+export function handleRequest (req,res){
     //filter(Boolean) gets rid of empty entries
     let endpoints = req.url.split('/').filter(Boolean);
     let method = req.method;
@@ -76,21 +75,21 @@ function parseRoute (currentRoute, endpoints, parameter) {
 }
 
 async function getBook(res, id) {
-    console.log('single book')
-    res.end()
+    console.log('single book');
+    res.end();
 }
 
-async function getBooks(res) {
-    console.log('MEGA BOOKS')
-    res.end()
+async function getBooks(res, id) {
+    console.log('MEGA BOOKS');
+    res.end();
 }
 
 async function getStudent(res, id) {
-    console.log('single student')
-    res.end()
+    console.log('single student');
+    res.end();
 }
 
 async function getStudents(res, id) {
-    console.log('MEGA STUDS')
-    res.end()
+    console.log('MEGA STUDS');
+    res.end();
 }
