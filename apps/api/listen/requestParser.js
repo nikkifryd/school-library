@@ -13,16 +13,19 @@ const routes = {
 
         },
         'test': {
-            // GET /api/test/lurch => "lurch"
-            'lurch': (res, params) => "lurch",
-
-            // GET /api/test/Hund => "Es ist ein: Hund"
-            // GET /api/test/Katze => "Es ist ein: Katze"
+            'lurch': {
+                '': (res, params) => console.log("Desch is a lurch, ganz klar sigg i des"),
+                'baby':(res,params) => console.log('BABY LURCH AWW')
+            },
             '$tier': (res, params) => console.log("Es ist ein: " + params.tier),
 
             '$gattung': {
-                // GET /api/test/Canine/Wolf => "Gattung: Canine Tier: Wolf"
-                '$tier': (res, params) => console.log('Es ist ein '+params.tier+' der Gattung '+params.gattung)
+                '':(res, params) => console.log('Nur die Gattung '+ params.gattung),
+                '$tier': {
+                    '':(res, params) => console.log('Es ist ein '+params.tier+' der Gattung '+params.gattung),
+                    'pfote': (res, params) => console.log('Es ist eine '+params.tier+'-Pfote aus der Gattung '+params.gattung),
+                    '$koerperteil': (res, params) => console.log('Es ist eins '+params.tier+'-'+params.koerperteil+' aus der Gattung '+params.gattung)
+                },
             }
         }
     }
@@ -55,19 +58,19 @@ export function handleRequest (req,res){
  * @param {object} parameter 
  */
 function parseRoute (currentRoute, endpoints, parameter) {
-    //tester delete
-    console.log(endpoints+'('+parameter+'):\n');
-    console.log(currentRoute);
-
-    let nextEndpoint = endpoints[0];
-    let params = parameter;
-
     if(endpoints.length === 0) {
         if (typeof currentRoute === 'function') {
             currentRoute(undefined,parameter);
         }
+        else if(currentRoute[''] && typeof currentRoute[''] === 'function') {
+            currentRoute[''](undefined,parameter);
+        }
         return;
     }
+
+    
+    let nextEndpoint = endpoints[0];
+    let params = parameter;
 
     if(nextEndpoint in currentRoute) {
         parseRoute(currentRoute[nextEndpoint], endpoints.slice(1), params);
