@@ -30,7 +30,7 @@ export async function getBook(id,req,res) {
         
         result = await database.getBook(id);
         if (result.length===0)
-            throw new ApiError(404,"Book not found");
+            throw new ApiError(404,"Book (id: "+id+") not found");
         talk.sendResult(result, res);
     }
     catch (error) {
@@ -56,7 +56,7 @@ export async function getBookCurrentTransaction(id,req,res) {
         
         let book = await database.getBook(id);
         if (book.length===0)
-            throw new ApiError(404,"Book not found");
+            throw new ApiError(404,"Book (id: "+id+") not found");
 
         result = await database.getBookCurrentTransaction(id);
         talk.sendResult(result, res);
@@ -85,7 +85,7 @@ export async function getBookTransactions(id,req,res) {
         
         let book = await database.getBook(id);
         if (book.length===0)
-            throw new ApiError(404,"Book not found") ;
+            throw new ApiError(404,"Book (id: "+id+") not found") ;
 
         result = await database.getBookTransactions(id);
         talk.sendResult(result, res);
