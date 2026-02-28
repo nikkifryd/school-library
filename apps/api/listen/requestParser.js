@@ -1,10 +1,12 @@
 import * as process from '../process/process.js'
+import { ApiError } from '../talk/apiError.js';
+import { sendError } from '../talk/talk.js';
 
 /**Notation:
- * -'' on top
- * -clear next
- * -keys last
- * -Only one at one level
+ * -'' on top 
+ * -clear next 
+ * -keys last 
+ * -Only one at one level 
  */
 const routes = {
     'GET': {
@@ -32,14 +34,26 @@ export function handleRequest (req,res) {
     //filter(Boolean) gets rid of empty entries
     let endpoints = req.url.split('/').filter(Boolean);
     let method = req.method;
+    
+    try {
+        if (endpoints[0] !== 'api') 
+            throw new ApiError(400,"Must use \"/api/\" in front of URL for requests to the API");
 
-    if (!(routes[method]) || endpoints[0] !== 'api') {
-        res.writeHead(501);
-        res.end();
-        return;
+        if (!(method in routes))
+            throw new ApiError(405,"HTTP-method not allowed");
+
+        let endpointAtRoute = parseRoute(endpoints.slice(1),routes[method], {}, req, res);
+        
+        if (!endpointAtRoute)
+            throw new ApiError(400,"URL not found");
+    
+    } catch (error) {
+        if(error instanceof ApiError)
+            sendError(error,res);
+        else
+            console.log(error);
     }
-
-    parseRoute(endpoints.slice(1),routes[method], {}, req, res);
+    
 }
 
 /**
@@ -54,12 +68,15 @@ export function handleRequest (req,res) {
 function parseRoute (endpoints, currentRoute, parameter, req, res) {
     if(endpoints.length === 0) {
         if (typeof currentRoute === 'function') {
-            return currentRoute(parameter, req, res);
+            currentRoute(parameter, req, res);
+            return true;
         }
 
         if(typeof currentRoute[''] === 'function') {
-            return currentRoute[''](parameter, req, res);
+            currentRoute[''](parameter, req, res);
+            return true;
         }
+        return false;
     }
 
 
@@ -75,9 +92,7 @@ function parseRoute (endpoints, currentRoute, parameter, req, res) {
             let paramName = routeKey.slice(1);
             params[paramName] = nextEndpoint;
 
-            let keyValue = parseRoute(endpoints.slice(1), currentRoute[routeKey], params, req, res);
-            if(typeof keyValue === 'function') 
-                return keyValue(params, req, res);
+            return parseRoute(endpoints.slice(1), currentRoute[routeKey], params, req, res);
         }
     }
 }

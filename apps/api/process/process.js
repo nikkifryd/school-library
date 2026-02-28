@@ -1,5 +1,6 @@
 import * as http from 'node:http';
 
+import { ApiError } from '../talk/apiError.js';
 import * as database from "./query.js";
 import * as talk from "../talk/talk.js";
 
@@ -22,9 +23,23 @@ export async function getAllBooks(req,res) {
  * @param {http.ServerResponse} res 
  */
 export async function getBook(id,req,res) {
-    let result = await database.getBook(id);
-    talk.sendResult(result, res);
-}
+    let result;
+    try {
+        if(!Number(id))
+            throw new ApiError(404,"Book not found");
+        
+        result = await database.getBook(id);
+        if (result.length===0)
+            throw new ApiError(404,"Book not found");
+        talk.sendResult(result, res);
+    }
+    catch (error) {
+        if(error instanceof ApiError)
+            talk.sendError(error, res);
+        else
+            console.log(error);
+    }
+} 
 
 /**
  * GET /api/books/$id/lending
@@ -34,8 +49,24 @@ export async function getBook(id,req,res) {
  * @param {http.ServerResponse} res 
  */
 export async function getBookCurrentTransaction(id,req,res) {
-    let result = await database.getBookCurrentTransaction(id);
-    talk.sendResult(result, res);
+    let result;
+    try {
+        if(!Number(id))
+            throw new ApiError(404,"Book not found");
+        
+        let book = await database.getBook(id);
+        if (book.length===0)
+            throw new ApiError(404,"Book not found");
+
+        result = await database.getBookCurrentTransaction(id);
+        talk.sendResult(result, res);
+    }
+    catch (error) {
+        if(error instanceof ApiError)
+            talk.sendError(error, res);
+        else
+            console.log(error);
+    }
 }
 
 /**
@@ -47,6 +78,22 @@ export async function getBookCurrentTransaction(id,req,res) {
  * @param {http.ServerResponse} res 
  */
 export async function getBookTransactions(id,req,res) {
-    let result = await database.getBookTransactions(id);
-    talk.sendResult(result, res);
+    let result;
+    try {
+        if(!Number(id))
+            throw new ApiError(404,"Book not found");
+        
+        let book = await database.getBook(id);
+        if (book.length===0)
+            throw new ApiError(404,"Book not found") ;
+
+        result = await database.getBookTransactions(id);
+        talk.sendResult(result, res);
+    }
+    catch (error) {
+        if(error instanceof ApiError)
+            talk.sendError(error, res);
+        else
+            console.log(error);
+    }
 }

@@ -1,7 +1,8 @@
 import * as http from "node:http";
+import { ApiError } from "./apiError.js";
 
 /**
- * Sends the result
+ * Sends the result to the client
  * @param {http.ServerResponse} res 
  */
 export function sendResult(result, res) {
@@ -11,4 +12,20 @@ export function sendResult(result, res) {
         'content-type': 'application/json',
     });
     res.end(JSON.stringify(result));
+}
+
+/**
+ * Sends the given error to the client
+ * @param {ApiError} error 
+ * @param {http.ServerResponse} res
+ */
+export function sendError(error, res) {
+    if(error.errorCode === 405)
+        res.setHeader('Allow','GET');
+
+    res.writeHead(error.errorCode, {
+        'server': 'Node.js and MariaDB',
+        'content-type': 'text/plain'
+    });
+    res.end(error.errorCode+' - '+error.message);
 }
