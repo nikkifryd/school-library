@@ -35,25 +35,16 @@ export function handleRequest (req,res) {
     let endpoints = req.url.split('/').filter(Boolean);
     let method = req.method;
     
-    try {
-        if (endpoints[0] !== 'api') 
-            throw new ApiError(400,"Must use \"/api/\" in front of URL for requests to the API");
+    if (endpoints[0] !== 'api') 
+        throw new ApiError(400,"Must use \"/api/\" in front of URL for requests to the API");
 
-        if (!(method in routes))
-            throw new ApiError(405,"HTTP-method not allowed");
+    if (!(method in routes))
+        throw new ApiError(405,"HTTP-method not allowed");
 
-        let endpointAtRoute = parseRoute(endpoints.slice(1),routes[method], {}, req, res);
-        
-        if (!endpointAtRoute)
-            throw new ApiError(400,"URL not found");
+    let endpointAtRoute = parseRoute(endpoints.slice(1),routes[method], {}, req, res);
     
-    } catch (error) {
-        if(error instanceof ApiError)
-            sendError(error,res);
-        else
-            console.log(error);
-    }
-    
+    if (!endpointAtRoute)
+        throw new ApiError(400,"URL not found");
 }
 
 /**
