@@ -2,17 +2,17 @@
 USE library;
 
 /*Naming conventions for tables are as follows:
-Entities are Uppercase, relationships are lowercase
+Entities are lowercase, relationships are lowercase
 and attributes are lowercase.
 */
 
-CREATE TABLE Books (
+CREATE TABLE books (
 	id INT UNSIGNED PRIMARY KEY,
 	title TEXT NOT NULL,
 	author varchar(100)
 );
 
-CREATE TABLE Students (
+CREATE TABLE students (
 	name varchar(200) PRIMARY KEY
 );
 
@@ -21,8 +21,8 @@ past and current ones. To find the still running
 transactions query for rows where end IS NULL*/
 CREATE TABLE lending (
 	id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	book INT UNSIGNED REFERENCES Books(id),
-	student VARCHAR(200) REFERENCES Students(name),
+	book INT UNSIGNED REFERENCES books(id),
+	student VARCHAR(200) REFERENCES students(name),
 	start DATE NOT NULL,
 	end DATE
 );
