@@ -3,10 +3,19 @@ import * as parser from './requestParser.js';
 import { ApiError } from '../talk/apiError.js';
 import { sendError } from '../talk/talk.js';
 
-const host = "127.0.0.1";
-const port = 8000;
+var serverHost = "127.0.0.1";
+var serverPort = 8000;
 
-const server = http.createServer(onRequest);
+export function listen (host, port) {
+    const server = http.createServer(onRequest);
+    
+    if(host)
+        serverHost = host;
+    if(port)
+        serverPort = port;
+
+    server.listen(serverPort,serverHost, () => console.log('Listening on '+serverHost+':'+serverPort+'...'));
+}
 
 function onRequest (req,res) {
     try {
@@ -18,5 +27,3 @@ function onRequest (req,res) {
             console.log(error);
     }
 }
-
-server.listen(port,host, () => console.log('Listening on port '+port+'...'));
