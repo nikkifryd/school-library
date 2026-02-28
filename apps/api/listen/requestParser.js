@@ -1,4 +1,4 @@
-import * as database from '../process/process.js'
+import * as process from '../process/process.js'
 
 /**Notation:
  * -'' on top
@@ -9,30 +9,17 @@ import * as database from '../process/process.js'
 const routes = {
     'GET': {
         'books': {
-            '' : {},
+            '' : (params,req,res) => process.getAllBooks(req,res),
             '$id': {
-                '': {},
-                'author': {}
+                '': (params,req,res) => process.getBook(params.id,req,res),
+                'lending':{
+                    '': (params,req,res) => process.getBookCurrentTransaction(params.id,req,res),
+                    'log': (params,req,res) => process.getBookTransactions(params.id,req,res)
+                }
             }
         },
         'students': {
 
-        },
-        'test': {
-            'lurch': {
-                '': (params, req, res) => console.log("Desch is a lurch, ganz klar sigg i des"),
-                'baby':(res,params) => console.log('BABY LURCH AWW')
-            },
-            '$tier': (params, req, res) => console.log("Es ist ein: " + params.tier),
-
-            '$gattung': {
-                '':(params, req, res) => console.log('Nur die Gattung '+ params.gattung),
-                '$tier': {
-                    '':(params, req, res) => console.log('Es ist ein '+params.tier+' der Gattung '+params.gattung),
-                    'pfote': (params, req, res) => console.log('Es ist eine '+params.tier+'-Pfote aus der Gattung '+params.gattung),
-                    '$koerperteil': (params, req, res) => console.log('Es ist eins '+params.tier+'-'+params.koerperteil+' aus der Gattung '+params.gattung)
-                },
-            }
         }
     }
 };
@@ -93,24 +80,4 @@ function parseRoute (endpoints, currentRoute, parameter, req, res) {
                 return keyValue(params, req, res);
         }
     }
-}
-
-async function getBook(res, id) {
-    console.log('single book');
-    res.end();
-}
-
-async function getBooks(res, id) {
-    console.log('MEGA BOOKS');
-    res.end();
-}
-
-async function getStudent(res, id) {
-    console.log('single student');
-    res.end();
-}
-
-async function getStudents(res, id) {
-    console.log('MEGA STUDS');
-    res.end();
 }
