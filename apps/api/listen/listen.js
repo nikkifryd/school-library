@@ -17,9 +17,9 @@ export function listen (host, port) {
     server.listen(serverPort,serverHost, () => console.log('Listening on '+serverHost+':'+serverPort+'...'));
 }
 
-function onRequest (req,res) {
+async function onRequest (req,res) {
     try {
-        parser.handleRequest(req,res);
+        await parser.handleRequest(req,res);
     } catch (error) {
         if(error instanceof ApiError)
             sendError(error,res);

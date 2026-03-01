@@ -2,6 +2,22 @@ import * as process from '../process/process.js'
 import { ApiError } from '../talk/apiError.js';
 import { sendError } from '../talk/talk.js';
 
+/**
+ * Contains the function and its parameters to be called
+ * at the end of a route
+ */
+class routeDestination {
+    /**
+     * 
+     * @param {[string]} parameters 
+     * @param {function} process 
+     */
+    constructor(process, parameters) {
+        this.process = process;
+        this.parameters = parameters;
+    }
+}
+
 /**Notation:
  * -'' on top 
  * -clear next 
@@ -11,12 +27,12 @@ import { sendError } from '../talk/talk.js';
 const routes = {
     'GET': {
         'books': {
-            '' : (params,req,res) => process.getAllBooks(req,res),
+            '' : new routeDestination(process.getAllBooks),
             '$id': {
-                '': (params,req,res) => process.getBook(params.id,req,res),
+                '': new routeDestination(process.getBook),
                 'lending':{
-                    '': (params,req,res) => process.getBookCurrentTransaction(params.id,req,res),
-                    'log': (params,req,res) => process.getBookTransactions(params.id,req,res)
+                    '': new routeDestination(process.getBookCurrentTransaction),
+                    'log': new routeDestination(process.getBookTransactions),
                 }
             }
         },
@@ -30,7 +46,7 @@ const routes = {
  * @param {http.IncomingMessage} req Client request
  * @param {http.ServerResponse} res Server response
  */
-export function handleRequest (req,res) {
+export async function handleRequest (req,res) {
     //filter(Boolean) gets rid of empty entries
     let endpoints = req.url.split('/').filter(Boolean);
     let method = req.method;
@@ -41,9 +57,11 @@ export function handleRequest (req,res) {
     if (!(method in routes))
         throw new ApiError(405,"HTTP-method not allowed");
 
-    let endpointAtRoute = parseRoute(endpoints.slice(1),routes[method], {}, req, res);
-    
-    if (!endpointAtRoute)
+    let atRoute = parseRoute(endpoints.slice(1),routes[method], {});
+
+    if (atRoute instanceof routeDestination)
+            await atRoute.process(atRoute.parameters,req,res);
+    else
         throw new ApiError(400,"URL not found");
 }
 
@@ -51,31 +69,31 @@ export function handleRequest (req,res) {
  * Parses the requested URL along the above defined routes recursively
  * @param {[string]} endpoints Endpoints contained in the URL
  * @param {object} currentRoute The point in the route currently at
- * @param {object} parameter The parameters passed in the keys
+ * @param {object} parameters The parameters passed in the keys
  * @param {http.IncomingMessage} req IncomingMessage passed down to the function at the route
  * @param {http.ServerResponse} res ServerResponse passed down to the function at the route
  * @returns {Function} The function called at the end of the route
  */
-function parseRoute (endpoints, currentRoute, parameter, req, res) {
+function parseRoute (endpoints, currentRoute, parameters) {
     if(endpoints.length === 0) {
-        if (typeof currentRoute === 'function') {
-            currentRoute(parameter, req, res);
-            return true;
+        if (currentRoute instanceof routeDestination) {
+            currentRoute.parameters = parameters;
+            return currentRoute;
         }
 
-        if(typeof currentRoute[''] === 'function') {
-            currentRoute[''](parameter, req, res);
-            return true;
+        if(currentRoute[''] instanceof routeDestination) {
+            currentRoute[''].parameters = parameters;
+            return currentRoute[''];
         }
         return false;
     }
 
 
     let nextEndpoint = endpoints[0];
-    let params = parameter;
+    let params = parameters;
 
     if(nextEndpoint in currentRoute) {
-        return parseRoute(endpoints.slice(1), currentRoute[nextEndpoint], params, req, res);
+        return parseRoute(endpoints.slice(1), currentRoute[nextEndpoint], params);
     }
 
     for(let routeKey in currentRoute) {
@@ -83,7 +101,7 @@ function parseRoute (endpoints, currentRoute, parameter, req, res) {
             let paramName = routeKey.slice(1);
             params[paramName] = nextEndpoint;
 
-            return parseRoute(endpoints.slice(1), currentRoute[routeKey], params, req, res);
+            return parseRoute(endpoints.slice(1), currentRoute[routeKey], params);
         }
     }
 }
