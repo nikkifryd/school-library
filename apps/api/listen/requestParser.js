@@ -6,7 +6,7 @@ import { sendError } from '../talk/talk.js';
  * Contains the function and its parameters to be called
  * at the end of a route
  */
-class routeDestination {
+class RouteDestination {
     /**
      * 
      * @param {[string]} parameters 
@@ -27,12 +27,12 @@ class routeDestination {
 const routes = {
     'GET': {
         'books': {
-            '' : new routeDestination(process.getAllBooks),
+            '' : new RouteDestination(process.getAllBooks),
             '$id': {
-                '': new routeDestination(process.getBook),
+                '': new RouteDestination(process.getBook),
                 'lending':{
-                    '': new routeDestination(process.getBookCurrentTransaction),
-                    'log': new routeDestination(process.getBookTransactions),
+                    '': new RouteDestination(process.getBookCurrentTransaction),
+                    'log': new RouteDestination(process.getBookTransactions),
                 }
             }
         },
@@ -59,8 +59,8 @@ export async function handleRequest (req,res) {
 
     let atRoute = parseRoute(endpoints.slice(1),routes[method], {});
 
-    if (atRoute instanceof routeDestination)
-            await atRoute.process(atRoute.parameters,req,res);
+    if (atRoute instanceof RouteDestination)
+        await atRoute.process(atRoute.parameters,req,res);
     else
         throw new ApiError(400,"URL not found");
 }
@@ -76,12 +76,12 @@ export async function handleRequest (req,res) {
  */
 function parseRoute (endpoints, currentRoute, parameters) {
     if(endpoints.length === 0) {
-        if (currentRoute instanceof routeDestination) {
+        if (currentRoute instanceof RouteDestination) {
             currentRoute.parameters = parameters;
             return currentRoute;
         }
 
-        if(currentRoute[''] instanceof routeDestination) {
+        if(currentRoute[''] instanceof RouteDestination) {
             currentRoute[''].parameters = parameters;
             return currentRoute[''];
         }
