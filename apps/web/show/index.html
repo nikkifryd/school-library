@@ -10,26 +10,50 @@
 
         <title>Schülerbücherei</title>
         <style>
-            body {
-                background-color: #ffffe2;
+            body { 
+                font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+                background-color: #f9f6e9;
+            }
+            hr {
+                background-color: black;
+                height: 1.5px;
+            }
+            #searchBook {
+                font:'Trebuchet MS';
+                width: 115px;
+                border-width: 1.5px;
+                border-radius: 3px;
+                background-color: #d4def3;
             }
             table {
-                width: 90%;
-                background-color: #fa92fc;
+                width: 100%;
+                background-color: #7188BA;
+                border-radius: 5px;
+                border-spacing: 7px;
+                padding-top: 3px;
+                margin-top: 10px;
             }
             table, td {
-                border: 1px solid rgb(52, 38, 37);
+                border: 1.8px solid rgb(52, 38, 37);
             }
             td {
+                text-align: left;
+                height: 42.5px;
                 min-width: 20px;
                 border-radius: 5px;
-                background-color: #ffffe2;
+                background-color: 	#9eb3e1;
+                padding-left: 13px;
+                padding-top: 5px;
+                padding-bottom: 5px;
             }
         </style>
     </head>
     <body>
-        <h1>Schülerbücherei</h1>
+        <h2>Schülerbücherei</h2>
         <hr>
+        <div class="searchbar">
+            <input type="text" id="searchBook" name="searchBook" placeholder="Nach ID suchen...">
+        </div>
         <table name="books" id="bookTable">
             <tr>
                 <th>ID</th>
