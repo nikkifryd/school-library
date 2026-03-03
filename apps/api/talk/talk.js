@@ -10,7 +10,7 @@ export function sendResult(result, res) {
         'server': 'Node.js and MariaDB',
         'content-language': 'de',
         'content-type': 'application/json',
-        "access-control-allow-origin": '*'
+        'access-control-allow-origin': '*'
     });
     res.end(JSON.stringify(result));
 }
