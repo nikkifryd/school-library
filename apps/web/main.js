@@ -1,7 +1,7 @@
 
 const elements = {
-    searchBook: document.getElementById("searchBook"),
-    tableRows: document.getElementById("bookTable").children
+    searchBook: document.getElementById('searchBook'),
+    tableRows: document.getElementById('booksTable').children
 }
 
 fetch('http://127.0.0.1:8000/api/books').then((response) => response.json())
@@ -13,10 +13,17 @@ elements.searchBook.addEventListener('input', (event) => {
 });
 
 function rowListen(row) {
-    console.log(row);
-
     row.addEventListener('click', (event) => {
-        //fetch /api/books/$id/lending/log
+        let bookId = event.target.parentElement.querySelector('#id').innerHTML;
+        let bookTitle = event.target.parentElement.querySelector('#title').innerHTML;
+        let bookAuthor = event.target.parentElement.querySelector('#author').innerHTML;
+        let bookData = {id:bookId, title: bookTitle, author: bookAuthor};
+        
+        fetch('http://127.0.0.1:8000/api/books/'+bookId+'/lending/log').then((response) => response.json())
+        .then((transactions) => {
+            fillLendingWindow(transactions, bookData);
+        });
+            
     });
 }
 

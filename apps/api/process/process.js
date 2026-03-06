@@ -26,15 +26,15 @@ export async function getBook(params,req,res) {
     let id = params.id;
     let result;
 
-    if(!Number(id))
+    if(!Number(id) && id !=='0')
         throw new ApiError(404,"Book not found");
     
     result = await database.getBook(id);
-
-    if (result.length===0)
-        throw new ApiError(404,"Book (id: "+id+") not found");
     
-    talk.sendResult(result, res);
+    if(result.length === 0)
+        talk.sendResult(result, res, 404);
+    else
+        talk.sendResult(result, res);
 } 
 
 /**
@@ -48,7 +48,7 @@ export async function getBookCurrentTransaction(params,req,res) {
     let id = params.id;
     let result;
 
-    if(!Number(id))
+    if(!Number(id) && id !=='0')
         throw new ApiError(404,"Book not found");
     
     let book = await database.getBook(id);
@@ -73,7 +73,7 @@ export async function getBookTransactions(params,req,res) {
     let id = params.id;
     let result;
     
-    if(!Number(id))
+    if(!Number(id) && id !=='0')
         throw new ApiError(404,"Book not found");
     
     let book = await database.getBook(id);
@@ -82,6 +82,7 @@ export async function getBookTransactions(params,req,res) {
         throw new ApiError(404,"Book (id: "+id+") not found") ;
 
     result = await database.getBookTransactions(id);
+    console.log(result);
     
     talk.sendResult(result, res);
 }

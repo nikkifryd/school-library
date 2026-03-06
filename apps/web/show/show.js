@@ -1,9 +1,13 @@
-const bookTable = document.getElementById("bookTable");
+const booksTable = document.getElementById('booksTable');
+const popupWindow = document.getElementById('popup-window');
+const lendingTable = document.getElementById('lendingTable');
+const overlay = document.getElementById('overlay');
 
 function emptyBookTable () {
-    for(let row of bookTable.children) {
-        if(row.tagName === 'TR')
-            bookTable.removeChild(row);
+    let rowsCount = booksTable.rows.length;
+
+    for(let i = rowsCount-1; i>0; i--) {
+        booksTable.deleteRow(i)
     }
 }
 
@@ -13,24 +17,45 @@ function fillBookTable(books) {
     for (let book of books) {
         let row = document.createElement('tr');
         row.className = "hoverZoom";
-        rowListen(row);
-        
+
         for(let attribute in book) {
             let cell = document.createElement('td');
+            cell.className = 'bookdata';
+            cell.setAttribute("id", attribute);
             cell.appendChild(document.createTextNode(book[attribute]));
 
             row.appendChild(cell);
         }
+        rowListen(row);
 
-        bookTable.appendChild(row);
+        booksTable.appendChild(row);
     };
 }
 
 function fillSearchResult(books) {
-    
-    console.log(bookTable);
-    emptyBookTable();    
-
     fillBookTable(books);
-    console.log(bookTable);
+}
+
+function fillLendingWindow(transactions, bookData) {
+    overlay.style.display = 'flex';
+    popupWindow.style.display = 'flex';
+
+    console.log(transactions);
+
+    //document.getElementById('window-title').innerHTML = bookData.title;
+    
+    for (let transaction of transactions) {
+        let row = document.createElement('tr');
+
+        for(let attribute in transaction) {
+            let cell = document.createElement('td');
+            cell.className = 'lendingdata'
+            cell.setAttribute("id", attribute);
+            cell.appendChild(document.createTextNode(transaction[attribute]));
+
+            row.appendChild(cell);
+        }
+
+        lendingTable.appendChild(row);
+    }
 }

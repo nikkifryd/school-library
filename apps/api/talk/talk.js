@@ -5,13 +5,17 @@ import { ApiError } from "./apiError.js";
  * Sends the result to the client
  * @param {http.ServerResponse} res 
  */
-export function sendResult(result, res) {
-    res.writeHead(200,{
+export function sendResult(result, res, status) {
+    let headers = {
         'server': 'Node.js and MariaDB',
         'content-language': 'de',
         'content-type': 'application/json',
         'access-control-allow-origin': '*'
-    });
+    };
+    if(status)
+        res.writeHead(status, headers);
+    else
+        res.writeHead(200, headers);
     res.end(JSON.stringify(result));
 }
 
