@@ -13,14 +13,20 @@ export async function loadStartPage (apiAddress) {
     listen.listenSearchBar();
 }
 
-export async function loadLendingWindow(bookid) {
+export async function loadLendingWindow (bookid) {
     let book = (await talk.getBook(bookid))[0];
     let transactions = await talk.getBookTransactions(bookid);
 
-    show.fillLendingWindow(book, transactions);
+    listen.listenOverlay();
+
+    show.loadLendingWindow(book, transactions);
 }
 
-export async function searchBook(bookid) {
+export function closeLendingWindow() {
+    show.closeLendingWindow();
+}
+
+export async function searchBook (bookid) {
     let books = await talk.getBook(bookid);
 
     show.fillBookTable(books);
