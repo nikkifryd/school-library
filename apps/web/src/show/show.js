@@ -1,3 +1,6 @@
+import { elements } from '../components.js';
+import * as web from '../web.js';
+
 function emptyBookTable () {
     let rowsCount = elements.booksTable.rows.length;
 
@@ -6,12 +9,11 @@ function emptyBookTable () {
     }
 }
 
-function fillBookTable(books) {
+export function fillBookTable(books) {
     emptyBookTable();
 
     for (let book of books) {
         let row = document.createElement('tr');
-        row.className = "hoverZoom";
 
         for(let attribute in book) {
             let cell = document.createElement('td');
@@ -20,36 +22,16 @@ function fillBookTable(books) {
 
             row.appendChild(cell);
         }
-        rowListen(row);
 
         elements.booksTable.appendChild(row);
     };
 }
 
-function fillSearchResult(books) {
-    fillBookTable(books);
-}
-
-function toggleLendingWindow(status) {
-    if (status) {
-        elements.overlay.style.display = 'flex';
-        elements.lendingWindow.style.display = 'flex';
-
-        document.body.style.overflow='hidden';
-    }
-    else {
-        elements.overlay.style.display = 'none';
-        elements.lendingWindow.style.display = 'none';
-
-        document.body.style.overflow='auto';
-    }
-}
-
-function fillLendingWindow(transactions, bookData) {
+export function fillLendingWindow(book, transactions) {
     toggleLendingWindow(1);
 
-    document.getElementById('lending-book-title').innerHTML = bookData.title;
-    document.getElementById('lending-book-id').innerHTML = bookData.id;
+    elements.lendingBookid.innerHTML = book.id;
+    elements.lendingBookTitle.innerHTML = book.title;
     
     for (let transaction of transactions) {
         let row = document.createElement('tr');
@@ -69,5 +51,20 @@ function fillLendingWindow(transactions, bookData) {
         }
 
         elements.lendingTable.appendChild(row);
+    }
+}
+
+function toggleLendingWindow(status) {
+    if (status) {
+        elements.overlay.style.display = 'flex';
+        elements.lendingWindow.style.display = 'flex';
+
+        document.body.style.overflow='hidden';
+    }
+    else {
+        elements.overlay.style.display = 'none';
+        elements.lendingWindow.style.display = 'none';
+
+        document.body.style.overflow='auto';
     }
 }

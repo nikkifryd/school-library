@@ -1,0 +1,67 @@
+.booksTable {
+    width: 90%;
+    min-width: 40px;
+    alignment-baseline: center;
+    background-color: #7188BA;
+    border: 1.8px solid rgb(52, 38, 37);
+    border-radius: 5px;
+    border-spacing: 7px;
+    padding-top: 3px;
+    margin-top: 13px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.booksTable th {
+    margin-bottom: 10px;
+    font-size: 21px;
+}              
+.booksTable tr:hover{
+    transition: .08s;
+    transform: scale(1.03);
+    cursor: pointer;
+    & > td {
+        background-color: #739fc4;
+        color:#f9f6e9
+    }
+}
+.booksTable td {
+    text-align: left;
+    height: 42.5px;
+    min-width: 20px;
+    background-color: 	#9eb3e1;
+    border: 1.8px solid rgb(52, 38, 37);
+    border-radius: 5px;
+    padding-left: 13px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.booksTable #book-id {
+    width: 42.5px;
+}
+
+
+.lendingTable {
+    border-collapse: collapse;
+}
+.lendingTable table{
+    width: 100%;
+    padding: 5px;
+    align-items: space-evenly;
+}
+.lendingTable tr {
+    height: 15px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #aebdc4;
+}
+.lendingTable th {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.lendingTable th span {
+    background-color: #f6a5eb8f;
+}
+.lendingTable td {
+    text-align: center;
+    padding: 5px;
+}
