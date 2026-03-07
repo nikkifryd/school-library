@@ -1,13 +1,8 @@
-const booksTable = document.getElementById('booksTable');
-const popupWindow = document.getElementById('popup-window');
-const lendingTable = document.getElementById('lendingTable');
-const overlay = document.getElementById('overlay');
-
 function emptyBookTable () {
-    let rowsCount = booksTable.rows.length;
+    let rowsCount = elements.booksTable.rows.length;
 
     for(let i = rowsCount-1; i>0; i--) {
-        booksTable.deleteRow(i)
+        elements.booksTable.deleteRow(i)
     }
 }
 
@@ -27,7 +22,7 @@ function fillBookTable(books) {
         }
         rowListen(row);
 
-        booksTable.appendChild(row);
+        elements.booksTable.appendChild(row);
     };
 }
 
@@ -37,14 +32,14 @@ function fillSearchResult(books) {
 
 function toggleLendingWindow(status) {
     if (status) {
-        overlay.style.display = 'flex';
-        popupWindow.style.display = 'flex';
+        elements.overlay.style.display = 'flex';
+        elements.lendingWindow.style.display = 'flex';
 
         document.body.style.overflow='hidden';
     }
     else {
-        overlay.style.display = 'none';
-        popupWindow.style.display = 'none';
+        elements.overlay.style.display = 'none';
+        elements.lendingWindow.style.display = 'none';
 
         document.body.style.overflow='auto';
     }
@@ -53,8 +48,8 @@ function toggleLendingWindow(status) {
 function fillLendingWindow(transactions, bookData) {
     toggleLendingWindow(1);
 
-    document.getElementById('window-title').innerHTML = bookData.title;
-    document.getElementById('window-id').innerHTML = bookData.id;
+    document.getElementById('lending-book-title').innerHTML = bookData.title;
+    document.getElementById('lending-book-id').innerHTML = bookData.id;
     
     for (let transaction of transactions) {
         let row = document.createElement('tr');
@@ -73,6 +68,6 @@ function fillLendingWindow(transactions, bookData) {
 
         }
 
-        lendingTable.appendChild(row);
+        elements.lendingTable.appendChild(row);
     }
 }

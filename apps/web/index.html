@@ -67,11 +67,11 @@
                 padding-top: 5px;
                 padding-bottom: 5px;
             }
-            .booksTable #bookID {
+            .booksTable #book-id {
                 width: 42.5px;
             }
 
-            .popup-window {
+            #lending {
                 display: none;
                 flex-direction: column;
                 justify-items: space-evenly;
@@ -94,11 +94,11 @@
                 min-height: 45px;
                 border-bottom: 5px solid #78a8c4;
             }
-            .window-header #window-title {
+            .window-header #lending-book-title {
                 justify-self: center;
                 margin-inline: 20px;
             }
-            .window-header #window-id {
+            .window-header #lending-book-id {
                 justify-self: flex-start;
                 margin-inline: 20px;
             }
@@ -127,9 +127,6 @@
                 text-align: center;
                 padding: 5px;
             }
-            .lendingTable #bookID {
-                width: 50px;
-            }
 
             #overlay {
                 display: none;
@@ -151,7 +148,7 @@
         </div>
         <table name="books" id="booksTable" class="booksTable">
             <colgroup>
-                <col span="1" id="bookID">
+                <col span="1" id="book-id">
             </colgroup>
             <tr>
                 <th>ID</th>
@@ -161,16 +158,13 @@
         </table>
     
         <div id="overlay"></div>
-        <div class="popup-window" id="popup-window">
+        <div class="lending" id="lending">
             <div class="window-header" id="window-header">
-                <h3 id="window-id"></h3>
-                <h3 id="window-title"></h3>
+                <h3 id="lending-book-id"></h3>
+                <h3 id="lending-book-title"></h3>
             </div>
 
             <table name="lending" id="lendingTable" class="lendingTable">
-                <colgroup>
-                    <col span="1" id="bookID">
-                </colgroup>
                 <tr>
                     <th><span>  Schüler*in </span></th>
                     <th><span> ausgeliehen  </span></th>

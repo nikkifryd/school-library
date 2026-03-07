@@ -1,5 +1,9 @@
 
 const elements = {
+   booksTable: document.getElementById('booksTable'),
+    lendingWindow: document.getElementById('lending'),
+    lendingTable: document.getElementById('lendingTable'),
+    overlay: document.getElementById('overlay'),
     searchBook: document.getElementById('searchBook'),
     tableRows: document.getElementById('booksTable').children
 }
