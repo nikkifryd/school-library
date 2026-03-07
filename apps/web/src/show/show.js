@@ -27,11 +27,16 @@ export function fillBookTable(books) {
     };
 }
 
-export function fillLendingWindow(book, transactions) {
-    toggleLendingWindow(1);
+function emptyLendingTable() {
+    let rowsCount = elements.lendingTable.rows.length;
 
-    elements.lendingBookid.innerHTML = book.id;
-    elements.lendingBookTitle.innerHTML = book.title;
+    for(let i = rowsCount-1; i>0; i--) {
+        elements.lendingTable.deleteRow(i)
+    }
+}
+
+export function fillLendingTable (transactions) {
+    emptyLendingTable();
     
     for (let transaction of transactions) {
         let row = document.createElement('tr');
@@ -52,6 +57,22 @@ export function fillLendingWindow(book, transactions) {
 
         elements.lendingTable.appendChild(row);
     }
+}
+
+export function loadLendingWindow(book, transactions) {
+    toggleLendingWindow(1);
+
+    elements.lendingBookid.innerHTML = book.id;
+    elements.lendingBookTitle.innerHTML = book.title;
+    
+    fillLendingTable(transactions);
+}
+
+export function closeLendingWindow() {
+    toggleLendingWindow(0);
+
+    elements.lendingBookid.innerHTML ='';
+    elements.lendingBookTitle.innerHTML = '';
 }
 
 function toggleLendingWindow(status) {

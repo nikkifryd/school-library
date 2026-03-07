@@ -1,3 +1,9 @@
+@keyframes pullupWindow {
+    0% {top:100%; left: 100%; scale: 10%;}
+    50% { scale: 40%;}
+    100% {top: 90px; left: 10%; scale: 100%}
+}
+
 #lending {
     display: none;
     flex-direction: column;
@@ -12,6 +18,14 @@
     background-color: #fcfac0;
     box-shadow: 15px 15px 7px #3b3b2494;
     overflow-y: auto;
+
+    animation-name: pullupWindow;
+    animation-duration: 0.5s;
+}
+#lending.hide {
+    animation-name: pullupWindow;
+    animation-duration: 0.5s;
+    animation-direction: reverse;
 }
 .window-header {
     display: flex;
