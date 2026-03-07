@@ -5,26 +5,36 @@
         <meta charset="UTF-8">
         <meta name="description" content="Bücherei der GS Dingelsdorf">
         <meta name="author" content="Nika Frey">
-        <meta http-equiv="refresh" content="60">
+        <meta http-equiv="refresh" content="180">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>Schülerbücherei</title>
         <style>
+            ::-webkit-scrollbar {
+                background: transparent;
+            }
+                
             .hoverZoom:hover{
                 transition: .08s;
-                transform: scale(1.05);
+                transform: scale(1.03);
+                cursor: pointer;
+                & > td {
+                    background-color: #739fc4;
+                    color:#f9f6e9
+                }
             }
             body { 
                 font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
                 background-color: #f9f6e9;
             }
-            hr {
+            body hr {
                 background-color: black;
                 height: 1.5px;
             }
             #searchBook {
                 font:'Trebuchet MS';
                 width: 100%;
+                height: 40px;
                 border-width: 1.5px;
                 border-radius: 3px;
                 background-color: #d4def3;
@@ -34,6 +44,7 @@
                 min-width: 40px;
                 alignment-baseline: center;
                 background-color: #7188BA;
+                border: 1.8px solid rgb(52, 38, 37);
                 border-radius: 5px;
                 border-spacing: 7px;
                 padding-top: 3px;
@@ -41,56 +52,85 @@
                 margin-left: auto;
                 margin-right: auto;
             }
-            .booksTable, .bookdata {
-                border: 1.8px solid rgb(52, 38, 37);
-            }
-            th {
+            .booksTable th {
                 margin-bottom: 10px;
                 font-size: 21px;
             }
-            .bookdata {
+            .booksTable td {
                 text-align: left;
                 height: 42.5px;
                 min-width: 20px;
-                border-radius: 5px;
                 background-color: 	#9eb3e1;
+                border: 1.8px solid rgb(52, 38, 37);
+                border-radius: 5px;
                 padding-left: 13px;
                 padding-top: 5px;
                 padding-bottom: 5px;
             }
-            .bookID {
+            .booksTable #bookID {
                 width: 42.5px;
             }
 
-            #popup-window {
+            .popup-window {
                 display: none;
-                position: absolute;
+                flex-direction: column;
+                justify-items: space-evenly;
+                position: fixed;
                 top: 90px;
                 left: 10%;
-                height: 250px;
+                height: 60%;
                 width: 80%;
-                border: 3px solid #71665dd8;
-                border-radius: 5px;
-                background-color: #ffe79a;
+                border: 1px solid #3b3b24;
+                border-radius: 1px;
+                background-color: #fcfac0;
+                box-shadow: 15px 15px 7px #3b3b2494;
+                overflow-y: auto;
             }
-            #window-header {
+            .window-header {
                 display: flex;
+                justify-items: stretch;
+                gap: 10px;
                 width: 100%;
-                height: 50px;
-                border-bottom: 2px solid black;
-                background-color: #caac94a7;
+                min-height: 45px;
+                border-bottom: 5px solid #78a8c4;
             }
-            #window-title {
-                display: none;
-                margin-top: 10px;
-                margin-left: 10px;
+            .window-header #window-title {
+                justify-self: center;
+                margin-inline: 20px;
             }
-            #lendingTable {
-                border: 1px solid black;
+            .window-header #window-id {
+                justify-self: flex-start;
+                margin-inline: 20px;
             }
-            .lendingdata {
-                border: 1px solid black;
+            .lendingTable {
+                border-collapse: collapse;
             }
+            .lendingTable table{
+                width: 100%;
+                padding: 5px;
+                align-items: space-evenly;
+            }
+            .lendingTable tr {
+                height: 10px;
+                margin-bottom: 10px;
+                border-bottom: 2px solid #aebdc4;
+            }
+            .lendingTable th {
+                text-align: center;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+            .lendingTable th span {
+                background-color: #f6a5eb8f;
+            }
+            .lendingTable td {
+                text-align: center;
+                padding: 5px;
+            }
+            .lendingTable #bookID {
+                width: 50px;
+            }
+
             #overlay {
                 display: none;
                 position: fixed;
@@ -98,10 +138,11 @@
                 left: 0;
                 height: 100%;
                 width: 100%;
-                background-color: #8fa4cf58;
+                background-color: #42475094;
             }
         </style>
     </head>
+
     <body>
         <h2 style="margin-bottom: 10px;">Schülerbücherei</h2>
         <hr>
@@ -110,7 +151,7 @@
         </div>
         <table name="books" id="booksTable" class="booksTable">
             <colgroup>
-                <col span="1" class="bookID">
+                <col span="1" id="bookID">
             </colgroup>
             <tr>
                 <th>ID</th>
@@ -121,10 +162,24 @@
     
         <div id="overlay"></div>
         <div class="popup-window" id="popup-window">
+            <div class="window-header" id="window-header">
+                <h3 id="window-id"></h3>
+                <h3 id="window-title"></h3>
+            </div>
+
             <table name="lending" id="lendingTable" class="lendingTable">
-                
+                <colgroup>
+                    <col span="1" id="bookID">
+                </colgroup>
+                <tr>
+                    <th><span>  Schüler*in </span></th>
+                    <th><span> ausgeliehen  </span></th>
+                    <th><span>  zurückgegeben</span></th>
+                </tr>
             </table>
         </div>
+
+
     <script src="show/show.js" type="text/javascript"></script>
     <script src="main.js" type="text/javascript"></script>
     </body>

@@ -20,7 +20,6 @@ function fillBookTable(books) {
 
         for(let attribute in book) {
             let cell = document.createElement('td');
-            cell.className = 'bookdata';
             cell.setAttribute("id", attribute);
             cell.appendChild(document.createTextNode(book[attribute]));
 
@@ -36,24 +35,42 @@ function fillSearchResult(books) {
     fillBookTable(books);
 }
 
+function toggleLendingWindow(status) {
+    if (status) {
+        overlay.style.display = 'flex';
+        popupWindow.style.display = 'flex';
+
+        document.body.style.overflow='hidden';
+    }
+    else {
+        overlay.style.display = 'none';
+        popupWindow.style.display = 'none';
+
+        document.body.style.overflow='auto';
+    }
+}
+
 function fillLendingWindow(transactions, bookData) {
-    overlay.style.display = 'flex';
-    popupWindow.style.display = 'flex';
+    toggleLendingWindow(1);
 
-    console.log(transactions);
-
-    //document.getElementById('window-title').innerHTML = bookData.title;
+    document.getElementById('window-title').innerHTML = bookData.title;
+    document.getElementById('window-id').innerHTML = bookData.id;
     
     for (let transaction of transactions) {
         let row = document.createElement('tr');
 
         for(let attribute in transaction) {
-            let cell = document.createElement('td');
-            cell.className = 'lendingdata'
-            cell.setAttribute("id", attribute);
-            cell.appendChild(document.createTextNode(transaction[attribute]));
+            switch (attribute) {
+                case 'student':
+                case 'start':
+                case 'end':
+                    let cell = document.createElement('td');
+                    cell.appendChild(document.createTextNode(transaction[attribute]));
+                    
+                    row.appendChild(cell);
+                    break;
+            }
 
-            row.appendChild(cell);
         }
 
         lendingTable.appendChild(row);
