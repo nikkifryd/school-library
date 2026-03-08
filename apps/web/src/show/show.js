@@ -1,5 +1,5 @@
 import { elements } from '../components.js';
-import * as web from '../web.js';
+import * as dateFormat from '../process/dateFormat.js';
 
 function emptyBookTable () {
     let rowsCount = elements.booksTable.rows.length;
@@ -41,6 +41,9 @@ export function fillLendingTable (transactions) {
     
     for (let transaction of transactions) {
         let row = document.createElement('tr');
+        
+        transaction.start = dateFormat.pointNotation(transaction.start);
+        transaction.end = dateFormat.pointNotation(transaction.end);
 
         for(let attribute in transaction) {
             switch (attribute) {
