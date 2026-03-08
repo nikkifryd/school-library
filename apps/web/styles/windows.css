@@ -69,7 +69,7 @@
 .window-header #lending-book-id {
     justify-self: flex-start;
     margin-inline: 20px;
-cursor: default;
+    cursor: default;
 }
 .window-header .borrow-button {
     justify-items: right;

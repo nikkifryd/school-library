@@ -48,9 +48,9 @@
     .booksTable td {
         font-size: medium;
         width: 10px;
-}
-.booksTable #book-id {
-    width: 42.5px;
+    }
+    .booksTable #book-id {
+        width: 42.5px;
         overflow-wrap:anywhere;
     }
 }

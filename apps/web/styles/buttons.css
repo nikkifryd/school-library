@@ -1,0 +1,14 @@
+.borrow-button {
+    min-height: 30px;
+    min-width: 70px;
+    background-color: #67ebfa93;
+    border: 1.5px solid #3b3b24;
+    border-radius: 3px;
+    margin-inline: 15px;
+    cursor: pointer;
+}
+
+.borrow-button:hover {
+    scale: 1.05;
+    background-color: #67ebfa;
+}
