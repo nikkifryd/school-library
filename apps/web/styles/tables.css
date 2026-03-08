@@ -1,4 +1,5 @@
 .booksTable {
+    table-layout: fixed;
     width: 90%;
     min-width: 40px;
     alignment-baseline: center;
@@ -8,6 +9,7 @@
     border-spacing: 7px;
     padding-top: 3px;
     margin-top: 13px;
+    margin-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -26,6 +28,7 @@
 }
 .booksTable td {
     text-align: left;
+    font-size: large;
     height: 42.5px;
     min-width: 20px;
     background-color: 	#9eb3e1;
@@ -34,9 +37,22 @@
     padding-left: 13px;
     padding-top: 5px;
     padding-bottom: 5px;
+    
+    overflow-wrap: break-word;
+}
+.booksTable #book-id {
+    width: 75px;
+    overflow-wrap:anywhere;
+}
+@media screen and (width <= 600px) {
+    .booksTable td {
+        font-size: medium;
+        width: 10px;
 }
 .booksTable #book-id {
     width: 42.5px;
+        overflow-wrap:anywhere;
+    }
 }
 
 
@@ -57,6 +73,7 @@
     text-align: center;
     padding-top: 10px;
     padding-bottom: 10px;
+    cursor: default;
 }
 .lendingTable th span {
     background-color: #f6a5eb8f;
@@ -64,4 +81,10 @@
 .lendingTable td {
     text-align: center;
     padding: 7px;
+    font-size: large;
+}
+@media screen and (width <= 600px) {
+    .lendingTable td {
+    font-size: medium;
+}
 }

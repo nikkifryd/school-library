@@ -55,7 +55,8 @@
 }
 .window-header {
     display: flex;
-    justify-items: stretch;
+    justify-content: center;
+    align-items: baseline;
     gap: 40px;
     width: 100%;
     min-height: 45px;
@@ -63,11 +64,15 @@
     padding-bottom: 15px;
 }
 .window-header #lending-book-title {
-    justify-self: center;
+    flex-grow: 2;
 }
 .window-header #lending-book-id {
     justify-self: flex-start;
     margin-inline: 20px;
+cursor: default;
+}
+.window-header .borrow-button {
+    justify-items: right;
 }
 
 #overlay {
@@ -79,4 +84,9 @@
     height: 100%;
     width: 100%;
     background-color: #42475094;
+}
+@media screen and (width <= 600px) {
+    .window-header {
+        gap:5px;
+    }
 }
