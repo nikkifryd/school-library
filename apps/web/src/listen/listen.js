@@ -3,11 +3,12 @@ import * as process from '../process/process.js';
 
 export function listenBookTableRows () {
     for (let row of elements.booksTable.rows) {
-        row.addEventListener('click', (event) => {
-            let bookid = event.target.parentElement.querySelector('#id').innerHTML;
-        
-            process.loadLendingWindow(bookid);
-        });
+        if(row.classList.contains('data-row'))
+            row.addEventListener('click', (event) => {
+                let bookid = event.target.parentElement.querySelector('#id').innerHTML;
+            
+                process.loadLendingWindow(bookid);
+            });
     }
 }
 
@@ -20,5 +21,5 @@ export function listenSearchBar () {
 export function listenOverlay () {
     elements.overlay.addEventListener('click', (event) => {
         process.closeLendingWindow();
-    })
+    },{once: true})
 }

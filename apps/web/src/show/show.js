@@ -14,6 +14,7 @@ export function fillBookTable(books) {
 
     for (let book of books) {
         let row = document.createElement('tr');
+        row.classList.add('data-row');
 
         for(let attribute in book) {
             let cell = document.createElement('td');
@@ -73,19 +74,29 @@ export function closeLendingWindow() {
 
     elements.lendingBookid.innerHTML ='';
     elements.lendingBookTitle.innerHTML = '';
+
+    emptyLendingTable();
 }
 
 function toggleLendingWindow(status) {
-    if (status) {
-        elements.overlay.style.display = 'flex';
-        elements.lendingWindow.style.display = 'flex';
+    let lendingWindow = elements.lendingWindow;
 
+    if (status) {
+        lendingWindow.classList.remove('pulldownWindow');
+        lendingWindow.classList.add('pullupWindow');
+
+        overlay.style.display = 'flex';
+        lendingWindow.style.display = 'flex';
         document.body.style.overflow='hidden';
     }
     else {
-        elements.overlay.style.display = 'none';
-        elements.lendingWindow.style.display = 'none';
+        lendingWindow.addEventListener('animationend', () => {
+            overlay.style.display = 'none';
+            lendingWindow.style.display = 'none';
+            document.body.style.overflow='auto';
+        },{once: true});
 
-        document.body.style.overflow='auto';
+        lendingWindow.classList.remove('pullupWindow');
+        lendingWindow.classList.add('pulldownWindow');
     }
 }

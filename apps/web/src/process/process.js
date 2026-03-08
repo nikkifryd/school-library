@@ -30,4 +30,6 @@ export async function searchBook (bookid) {
     let books = await talk.getBook(bookid);
 
     show.fillBookTable(books);
+
+    listen.listenBookTableRows();
 }

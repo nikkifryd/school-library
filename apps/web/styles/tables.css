@@ -15,7 +15,7 @@
     margin-bottom: 10px;
     font-size: 21px;
 }              
-.booksTable tr:hover{
+.booksTable .data-row:hover{
     transition: .08s;
     transform: scale(1.03);
     cursor: pointer;
@@ -63,5 +63,5 @@
 }
 .lendingTable td {
     text-align: center;
-    padding: 5px;
+    padding: 7px;
 }

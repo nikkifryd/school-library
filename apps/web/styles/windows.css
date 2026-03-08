@@ -1,13 +1,46 @@
 @keyframes pullupWindow {
-    0% {top:100%; left: 100%; scale: 10%;}
-    50% { scale: 40%;}
-    100% {top: 90px; left: 10%; scale: 100%}
+    0% {
+        top: 100%;
+        left: 100%;
+        scale: 10%;
+        opacity: 0;
+    }
+    50% {
+        scale: 40%;
+        opacity: 0.7;
+    }
+    100% {
+        top: 90px;
+        left: 10%;
+        scale: 100%;
+        opacity: 1;
+    }
 }
 
+@keyframes pulldownWindow {
+    0% {
+        top: 90px; left: 10%;
+        scale: 100%; opacity: 1;
+    }
+    50% {
+        top:50%; left: 40%;
+        scale: 20%; opacity: 0.7;
+    }
+    100% {
+        top: 100%; left: 100%;
+        scale: 10%; opacity: 0;
+    }
+}
+
+#lending.pullupWindow {
+    animation: pullupWindow 0.5s;
+}
+#lending.pulldownWindow {
+    animation: pulldownWindow 0.5s;
+}
 #lending {
     display: none;
     flex-direction: column;
-    justify-items: space-evenly;
     position: fixed;
     top: 90px;
     left: 10%;
@@ -18,26 +51,18 @@
     background-color: #fcfac0;
     box-shadow: 15px 15px 7px #3b3b2494;
     overflow-y: auto;
-
-    animation-name: pullupWindow;
-    animation-duration: 0.5s;
-}
-#lending.hide {
-    animation-name: pullupWindow;
-    animation-duration: 0.5s;
-    animation-direction: reverse;
 }
 .window-header {
     display: flex;
     justify-items: stretch;
-    gap: 10px;
+    gap: 40px;
     width: 100%;
     min-height: 45px;
     border-bottom: 5px solid #78a8c4;
+    padding-bottom: 15px;
 }
 .window-header #lending-book-title {
     justify-self: center;
-    margin-inline: 20px;
 }
 .window-header #lending-book-id {
     justify-self: flex-start;
