@@ -1,14 +1,23 @@
 .borrow-button {
     min-height: 30px;
-    min-width: 70px;
-    background-color: #67ebfa93;
-    border: 1.5px solid #3b3b24;
-    border-radius: 3px;
+    width: max(70px,17.5%);
+    background-color: inherit;
+    border: 1.9px solid #3b3b24;
+    border-radius: 4px;
     margin-inline: 15px;
+    font-weight: 550;
+    font-size: 16px;
     cursor: pointer;
+    transition: transform 0.01s;
 }
 
 .borrow-button:hover {
-    scale: 1.05;
-    background-color: #67ebfa;
+    font-weight: 650;
+    transform: translate(-1.1px,-1.1px);
+    box-shadow: 1.25px 1.25px 0.5px #3b3b2494;
+}
+.borrow-button:active {
+    transform: translate(0);
+    background-color: inherit;
+    box-shadow: none;
 }

@@ -16,6 +16,7 @@
 .booksTable th {
     margin-bottom: 10px;
     font-size: 21px;
+    cursor: default;
 }              
 .booksTable .data-row:hover{
     transition: .08s;

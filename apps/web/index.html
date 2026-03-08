@@ -17,6 +17,10 @@
                 font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
                 background-color: #f9f6e9;
             }
+            body h2 {
+                margin-bottom: 10px;
+                cursor: default;
+            }
             body hr {
                 background-color: black;
                 height: 1.5px;
@@ -38,7 +42,7 @@
     </head>
 
     <body>
-        <h2 style="margin-bottom: 10px;">Schülerbücherei</h2>
+        <h2>Schülerbücherei</h2>
         <hr>
         <div class="searchbar">
             <input type="text" id="searchBar" name="searchBar" placeholder="Suche">
@@ -59,7 +63,9 @@
             <div class="window-header" id="window-header">
                 <h3 id="lending-book-id"></h3>
                 <h3 id="lending-book-title"></h3>
-                <input type="button" class="borrow-button" text="Ausleihen">
+                <button type="button" class="borrow-button">
+                    Leihen
+                </button>
             </div>
 
             <table name="lending" id="lendingTable" class="lendingTable">
