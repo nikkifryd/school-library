@@ -39,7 +39,8 @@
     animation: pulldownWindow 0.5s;
 }
 #lending {
-    display: none;
+    visibility: hidden;
+    display: flex;
     flex-direction: column;
     position: fixed;
     top: 90px;
@@ -70,7 +71,8 @@
 }
 
 #overlay {
-    display: none;
+    visibility: hidden;
+    display: flex;
     position: fixed;
     top:0;
     left: 0;

@@ -82,17 +82,18 @@ function toggleLendingWindow(status) {
     let lendingWindow = elements.lendingWindow;
 
     if (status) {
+
+        overlay.style.visibility = 'visible';
+        lendingWindow.style.visibility = 'visible';
+        document.body.style.overflow='hidden';
+
         lendingWindow.classList.remove('pulldownWindow');
         lendingWindow.classList.add('pullupWindow');
-
-        overlay.style.display = 'flex';
-        lendingWindow.style.display = 'flex';
-        document.body.style.overflow='hidden';
     }
     else {
         lendingWindow.addEventListener('animationend', () => {
-            overlay.style.display = 'none';
-            lendingWindow.style.display = 'none';
+            overlay.style.visibility = 'hidden';
+            lendingWindow.style.visibility = 'hidden';
             document.body.style.overflow='auto';
         },{once: true});
 
