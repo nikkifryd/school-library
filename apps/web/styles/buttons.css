@@ -12,12 +12,9 @@
 }
 
 .borrow-button:hover {
-    font-weight: 650;
-    transform: translate(-1.1px,-1.1px);
-    box-shadow: 1.25px 1.25px 0.5px #3b3b2494;
+    background-color: #ecebb5;
 }
 .borrow-button:active {
-    transform: translate(0);
+    transform: scale(0.985);
     background-color: inherit;
-    box-shadow: none;
 }
