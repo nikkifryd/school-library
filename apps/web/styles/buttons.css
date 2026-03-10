@@ -1,4 +1,4 @@
-.borrow-button {
+#lending-button {
     min-height: 30px;
     width: max(70px,17.5%);
     background-color: inherit;
@@ -11,10 +11,10 @@
     transition: transform 0.01s;
 }
 
-.borrow-button:hover {
+#lending-button:hover {
     background-color: #ecebb5;
 }
-.borrow-button:active {
+#lending-button:active {
     transform: scale(0.985);
     background-color: inherit;
 }

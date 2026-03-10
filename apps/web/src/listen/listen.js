@@ -18,6 +18,22 @@ export function listenSearchBar () {
     });
 }
 
+export function listenLendingButton () {
+    let button = elements.lendingButton;
+
+    button.addEventListener('click', (event => {
+        if(button.classList.contains('lend')) {
+            process.startTransaction();
+        }
+        else if(button.classList.contains('return')) {
+            
+        }
+        else {
+            throw new Error("Missing lendingButton-class");
+        }
+    }))
+}
+
 export function listenOverlay () {
     elements.overlay.addEventListener('click', (event) => {
         process.closeLendingWindow();

@@ -72,6 +72,32 @@ export function loadLendingWindow(book, transactions) {
     fillLendingTable(transactions);
 }
 
+/**
+ * 
+ * @param {Date} currentDate 
+ */
+export function startTransaction(currentDate) {
+    let row = document.createElement('tr');
+    let cells = [document.createElement('td'),document.createElement('td'),document.createElement('td')];
+
+    let input = document.createElement('input');
+    let date = dateFormat.pointNotation(currentDate);
+
+    //focus the text input
+    document.activeElement.blur();
+    input.type = 'text';
+    input.autofocus = true;
+
+    cells[0].appendChild(input);
+    cells[1].appendChild(document.createTextNode(date));
+
+    for(let cell of cells)
+        row.appendChild(cell);
+    
+    let tableBody = elements.lendingTable.querySelector('tbody');
+    tableBody.append(row);
+}
+
 export function closeLendingWindow() {
     toggleLendingWindow(0);
 

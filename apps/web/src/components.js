@@ -5,6 +5,7 @@ export const elements = {
     lendingWindow: document.getElementById('lending'),
     lendingBookid: document.getElementById('lending-book-id'),
     lendingBookTitle: document.getElementById('lending-book-title'),
+    lendingButton: document.getElementById('lending-button'),
     lendingTable: document.getElementById('lendingTable'),
     overlay: document.getElementById('overlay'),
 
